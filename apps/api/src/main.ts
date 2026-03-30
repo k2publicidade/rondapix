@@ -9,10 +9,12 @@ async function bootstrap() {
     logger: ['error', 'warn', 'log', 'debug'],
   });
 
-  // CORS para o frontend
+  // Health check e favicon
+  app.use('/health', (_req: any, res: any) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
   app.use('/favicon.ico', (_req: any, res: any) => res.status(204).end());
+  const corsOrigin = process.env['CORS_ORIGIN'] ?? 'http://localhost:3000';
   app.enableCors({
-    origin: process.env['CORS_ORIGIN'] ?? 'http://localhost:3000',
+    origin: corsOrigin.includes(',') ? corsOrigin.split(',').map(s => s.trim()) : corsOrigin,
     credentials: true,
   });
 
