@@ -22,11 +22,11 @@ COPY --from=builder /app/package.json ./
 COPY --from=builder /app/pnpm-workspace.yaml ./
 COPY --from=builder /app/apps/api ./apps/api
 COPY --from=builder /app/packages ./packages
-COPY --from=builder /app/prisma/schema.prisma ./prisma/schema.prisma
-COPY --from=builder /app/prisma/package.json ./prisma/
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/scripts/start-api.sh ./scripts/start-api.sh
+RUN chmod +x ./scripts/start-api.sh
 
-WORKDIR /app/apps/api
 EXPOSE 10000
 ENV PORT=10000
 
-CMD ["node", "dist/main.js"]
+CMD ["sh", "./scripts/start-api.sh"]
