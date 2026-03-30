@@ -1,7 +1,0 @@
-{
-  "extends": "@ronda/config/tsconfig/base",
-  "compilerOptions": {
-    "types": ["node"]
-  },
-  "include": ["src/**/*", "tests/**/*"]
-}
