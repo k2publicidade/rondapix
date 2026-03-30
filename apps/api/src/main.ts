@@ -9,14 +9,18 @@ async function bootstrap() {
     logger: ['error', 'warn', 'log', 'debug'],
   });
 
-  // Health check e favicon
-  app.use('/health', (_req: any, res: any) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
-  app.use('/favicon.ico', (_req: any, res: any) => res.status(204).end());
+  // CORS — deve ser habilitado antes de qualquer rota
   const corsOrigin = process.env['CORS_ORIGIN'] ?? 'http://localhost:3000';
   app.enableCors({
     origin: corsOrigin.includes(',') ? corsOrigin.split(',').map(s => s.trim()) : corsOrigin,
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
+
+  // Health check e favicon
+  app.use('/health', (_req: any, res: any) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
+  app.use('/favicon.ico', (_req: any, res: any) => res.status(204).end());
 
   // Validação global com class-validator
   app.useGlobalPipes(
