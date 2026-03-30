@@ -1,0 +1,5 @@
+{
+  "extends": "@ronda/config/tsconfig/nextjs",
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
