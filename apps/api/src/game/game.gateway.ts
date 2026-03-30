@@ -26,7 +26,10 @@ import type {
 type RondaSocket = Socket<ClientToServerEvents, ServerToClientEvents, any, SocketData>;
 
 @WebSocketGateway({
-  cors: { origin: process.env['FRONTEND_URL'] ?? 'http://localhost:3000', credentials: true },
+  cors: {
+    origin: (process.env['CORS_ORIGIN'] ?? 'http://localhost:3000').split(',').map(s => s.trim()),
+    credentials: true,
+  },
   namespace: '/',
 })
 export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
